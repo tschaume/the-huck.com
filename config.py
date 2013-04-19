@@ -1,0 +1,2 @@
+CSRF_ENABLED = True
+SECRET_KEY = '[3K2[*aK63z7h&s)'
