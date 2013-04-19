@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{title}} @ the-huck.com</title>
+    {% else %}
+    <title>the-huck.com</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>the-huck.com: <a href="/index">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>
