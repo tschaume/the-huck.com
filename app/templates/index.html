@@ -6,11 +6,8 @@
 </ul>
 {% for post in posts.items %}
 <div class="page-header">
-  <h3><small>{{post.timestamp.ctime()}}</small></h3>
-  <blockquote>
-    {{post.body|safe}}
-    <small>Patrick Huck</small>
-  </blockquote>
+  <h5><small>{{post.timestamp.ctime()}}</small></h5>
+  <blockquote> {{post.body|safe}} </blockquote>
 </div>
 {% endfor %}
 {% endblock %}
