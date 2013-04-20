@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+  <h3>List of BlogPosts</h3>
+  <ul>
+    {% for post in posts %}
+    <li><a href="/archive/{{post.id}}">{{post.body[9:-4]}}</a> <small>{{post.timestamp.ctime()}}</small></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
