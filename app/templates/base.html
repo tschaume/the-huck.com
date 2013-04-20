@@ -11,19 +11,22 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/magic-bootstrap.css" rel="stylesheet" media="screen">
+    <link href="/static/css/sidebar-nav-fixed.css" rel="stylesheet" media="screen">
   </head>
   <body>
-    <div class="container">
-      <div class="navbar">
-        <div class="navbar-inner">
-          <a class="brand" href="/index">the-huck.com</a>
-          <ul class="nav nav-pills">
-            <li class="active"><a href="/index">Home</a></li>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span1 offset2">
+          <ul class="nav nav-pills nav-stacked sidebar-nav-fixed">
+            <li><a href="/index">Blog</a></li>
             <li><a href="#">About</a></li>
+            <li><a href="#">Archive</a></li>
           </ul>
         </div>
+        <div class="span6">
+          {% block content %}{% endblock %}
+        </div>
       </div>
-      {% block content %}{% endblock %}
-    </div>
   </body>
 </html>
