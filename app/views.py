@@ -6,6 +6,10 @@ import datetime
 @app.route('/')
 @app.route('/index')
 def index():
+  posts = Post.query.all()
+  for p in posts:
+    db.session.delete(p)
+  db.session.commit()
   p = Post(title = 'first post', body = 'lorem ipsum',
            timestamp = datetime.datetime.utcnow()
           )
