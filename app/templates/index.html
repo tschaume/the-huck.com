@@ -5,9 +5,6 @@
   <li class="next">{% if posts.has_next %}<a href="{{ url_for('index', page = posts.next_num) }}">&rarr; next</a>{% endif %}</li>
 </ul>
 {% for post in posts.items %}
-<div class="page-header">
-  <h5><small>{{post.timestamp.ctime()}}</small></h5>
-  <blockquote> {{post.body|safe}} </blockquote>
-</div>
+{% include 'post.html' %}
 {% endfor %}
 {% endblock %}
