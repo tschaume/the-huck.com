@@ -13,8 +13,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <div class="container">the-huck.com: <a href="/index">Home</a></div>
-    <hr>
-    {% block content %}{% endblock %}
+    <div class="container">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <a class="brand" href="/index">the-huck.com</a>
+          <ul class="nav">
+            <li class="active"><a href="/index">Home</a></li>
+            <li><a href="#">About</a></li>
+          </ul>
+        </div>
+      </div>
+      {% block content %}{% endblock %}
+    </div>
   </body>
 </html>
