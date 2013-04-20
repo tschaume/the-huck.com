@@ -2,6 +2,10 @@ from flask import render_template
 from app import app, db
 from app.models import Post
 import datetime
+import StringIO
+from asciidocapi import AsciiDocAPI
+asciidoc = AsciiDocAPI()
+asciidoc.options('--no-header-footer')
 
 @app.route('/')
 @app.route('/index')
@@ -11,14 +15,18 @@ def index(page = 1):
   for p in posts:
     db.session.delete(p)
   db.session.commit()
-  p = Post(title = 'first post', body = 'lorem ipsum',
+  p = Post(title = 'first post', body = 'asciidoc/post.txt',
            timestamp = datetime.datetime.utcnow()
           )
   db.session.add(p)
-  p = Post(title = 'second post', body = 'blafasl',
+  p = Post(title = 'second post', body = 'asciidoc/post.txt',
            timestamp = datetime.datetime.utcnow()
           )
   db.session.add(p)
   db.session.commit()
-  posts = Post.query.paginate(page, 1, False)
+  posts = Post.query.paginate(page, 1, False) # returns Paginate object
+  for p in posts.items:
+    outfile = StringIO.StringIO()
+    asciidoc.execute(str(p.body), outfile, backend = 'html4')
+    p.body = outfile.getvalue()
   return render_template("index.html", posts = posts)
