@@ -1,13 +1,19 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     {% if title %}
     <title>{{title}} @ the-huck.com</title>
     {% else %}
     <title>the-huck.com</title>
     {% endif %}
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <div>the-huck.com: <a href="/index">Home</a></div>
+    <div class="container">the-huck.com: <a href="/index">Home</a></div>
     <hr>
     {% block content %}{% endblock %}
   </body>
