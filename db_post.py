@@ -6,16 +6,15 @@ import datetime
 import argparse
 from sqlalchemy.orm.exc import NoResultFound
 
-def post(title, ascfile):
+def post(ascfile):
   try:
     pq = Post.query.filter(Post.body == ascfile)
     pq.one()
   except NoResultFound:
-    post = Post(title = title, body = ascfile,
-             timestamp = datetime.datetime.utcnow()
-            )
+    post = Post(body = ascfile, timestamp = datetime.datetime.utcnow())
     print "add %r" % post
     db.session.add(post)
+    db.session.commit()
     print Post.query.get(post.id)
   else:
     print "%r already posted" % ascfile
@@ -23,11 +22,10 @@ def post(title, ascfile):
     for p in pq.all():
       p.timestamp = datetime.datetime.utcnow()
       print Post.query.get(p.id)
-  db.session.commit()
+    db.session.commit()
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument("title", help="post title")
   parser.add_argument("ascfile", help="asciidoc file")
   args = parser.parse_args()
-  post(args.title, args.ascfile)
+  post(args.ascfile)

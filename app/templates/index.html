@@ -6,7 +6,7 @@
 </ul>
 {% for post in posts.items %}
 <div class="page-header">
-  <h2>{{post.title}} <small>{{post.timestamp.ctime()}}</small></h2>
+  <h3><small>{{post.timestamp.ctime()}}</small></h3>
   <blockquote>
     {{post.body|safe}}
     <small>Patrick Huck</small>
