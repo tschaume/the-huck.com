@@ -2,6 +2,10 @@
 import os
 import unittest
 import datetime
+import StringIO
+from app.asciidocapi import AsciiDocAPI
+asciidoc = AsciiDocAPI()
+asciidoc.options('--no-header-footer')
 
 from config import basedir
 from app import app, db
@@ -20,14 +24,19 @@ class TestCase(unittest.TestCase):
     db.drop_all()
 
   def test_post(self):
-    pi = Post(title = 'test post', body = 'lorem ipsum',
-             timestamp = datetime.datetime.utcnow()
-            )
+    pi = Post(title = 'test post', body = 'post.txt',
+              timestamp = datetime.datetime.utcnow()
+             )
     db.session.add(pi)
     db.session.commit()
     po = Post.query.get(1)
     print pi.title, po.title
     assert pi.title == po.title
+    outfile = StringIO.StringIO()
+    asciidoc.execute(str(po.body), outfile, backend = 'html4')
+    po.body = outfile.getvalue()
+    outfile.close()
+    print po.body
 
 if __name__ == '__main__':
   unittest.main()
