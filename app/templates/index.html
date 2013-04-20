@@ -6,8 +6,11 @@
 </ul>
 {% for post in posts.items %}
 <div class="page-header">
-  <h1>{{post.title}} <small>{{post.timestamp}}</small></h1>
-  <p>{{post.body}}</p>
+  <h2>{{post.title}} <small>{{post.timestamp}}</small></h2>
+  <blockquote>
+    <p>{{post.body}}</p>
+    <small>Patrick Huck</small>
+  </blockquote>
 </div>
 {% endfor %}
 {% endblock %}
