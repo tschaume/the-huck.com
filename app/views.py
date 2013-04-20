@@ -5,7 +5,8 @@ import datetime
 
 @app.route('/')
 @app.route('/index')
-def index():
+@app.route('/index/<int:page>')
+def index(page = 1):
   posts = Post.query.all()
   for p in posts:
     db.session.delete(p)
@@ -19,5 +20,5 @@ def index():
           )
   db.session.add(p)
   db.session.commit()
-  posts = Post.query.all()
+  posts = Post.query.paginate(page, 1, False)
   return render_template("index.html", posts = posts)
