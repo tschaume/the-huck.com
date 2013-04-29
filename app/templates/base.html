@@ -13,8 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--<link href="/static/css/magic-bootstrap.css" rel="stylesheet" media="screen">-->
     <link href="/static/css/sidebar-nav-fixed.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
   </head>
-  <body style="padding:40px">
+  <body>
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -26,29 +27,29 @@
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="navbar navbar-fixed-top span8 offset2">
-          <div class="navbar-inner">
-            <a class="brand" style="margin:5px" href="/index">the-huck.com</a>
-            <a class="pull-right" style="margin:10px" href="http://www.linode.com/?r=f3c546497390d4682d2a101790d27ad325dcae21"><img src="http://www.linode.com/images/pr/linode_logo2.png" width=100></a>
-          </div>
-        </div>
-        <div class="span1 offset2">
-          <ul class="nav nav-pills nav-stacked sidebar-nav-fixed">
-            <li><a href="/index">Blog</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/archive">Archive</a></li>
-            <li><a href="/tweets">Tweets</a></li>
+        <div class="well span2 sidebar-nav-fixed" style="padding: 10px 0;">
+          <ul class="nav nav-list"> <!--nav-pills nav-stacked -->
+            <li><a href="/index"><i class="icon-home"></i> Blog</a></li>
+            <li><a href="/about"><i class="icon-user"></i> About</a></li>
+            <li><a href="/archive"><i class="icon-book"></i> Archive</a></li>
+            <li><a href="/tweets"><i class="icon-twitter"></i> Tweets</a></li>
+            <li><a href="#top"><i class="icon-double-angle-up"></i> Top of Page</a></li>
           </ul>
         </div>
-        <div class="span6">
+        <div class="span8 offset2">
           <a name="top"></a>
           {% block content %}{% endblock %}
         </div>
-        <div class="span1">
-          <ul class="nav nav-pills nav-stacked sidebar-nav-fixed">
-            <li><a href="https://twitter.com/share" class="twitter-share-button" data-via="tschaume" data-hashtags="the-huck.com" data-dnt="true">Tweet</a><li>
-            <li><div class="fb-like" data-href="http://the-huck.com" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div></li>
-            <li><a href="#top">jump to top</a></li>
+        <div class="span2 offset10 sidebar-nav-fixed">
+          <ul class="inline">
+            <li style="margin: 0 -15px 0 -10px;"><a href="http://www.facebook.com/tschaume"><i class="icon-facebook-sign icon-large"></i></a></li>
+            <li style="margin: 0 -15px 0 0;"><a href="https://github.com/tschaume"><i class="icon-github icon-large"></i></a></li>
+            <li style="margin: 0 -15px 0 0;"><a href="http://www.linkedin.com/in/tschaume/"><i class="icon-linkedin icon-large"></i></a></li>
+          </ul>
+          <ul class="unstyled">
+            <li style="margin: 0 0 10px 0;"><a href="http://www.linode.com/?r=f3c546497390d4682d2a101790d27ad325dcae21"><img src="http://www.linode.com/images/pr/linode_logo2.png" width=80></a></li>
+            <li style="margin: 0 10px 0 0;"><a href="https://twitter.com/share" class="twitter-share-button" data-via="tschaume" data-hashtags="the-huck.com" data-dnt="true">Tweet</a></li>
+            <li style="margin: 0 10px 0 0;"><div class="fb-like" data-href="http://the-huck.com" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div></li>
           </ul>
         </div>
       </div>
