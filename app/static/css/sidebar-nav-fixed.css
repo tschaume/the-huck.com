@@ -1,7 +1,6 @@
 .sidebar-nav-fixed {
   position:fixed;
-  top:60px;
-  width:7.5%;
+  top:10px;
 }
 
 @media (max-width: 767px) {
@@ -13,6 +12,6 @@
 
 @media (max-width: 979px) {
   .sidebar-nav-fixed {
-    top:70px;
+    top:10px;
   }
 }
