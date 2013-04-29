@@ -33,3 +33,8 @@ def post(id = 1):
   post = Post.query.get(id)
   post.body = run_asciidoc(post)
   return render_template("posts.html", post = post)
+
+@app.route('/tweets')
+def tweets():
+  return render_template("tweets.html")
+

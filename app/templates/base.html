@@ -20,9 +20,10 @@
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=143500795820733";
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=143500795820733";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="navbar navbar-fixed-top span8 offset2">
@@ -36,6 +37,7 @@
             <li><a href="/index">Blog</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/archive">Archive</a></li>
+            <li><a href="/tweets">Tweets</a></li>
           </ul>
         </div>
         <div class="span6">
@@ -44,10 +46,9 @@
         </div>
         <div class="span1">
           <ul class="nav nav-pills nav-stacked sidebar-nav-fixed">
-            <li><a href="#top">jump to top</a></li>
-            <a href="https://twitter.com/share" class="twitter-share-button" data-via="tschaume" data-hashtags="the-huck.com" data-dnt="true">Tweet</a>
-            <li><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+            <li><a href="https://twitter.com/share" class="twitter-share-button" data-via="tschaume" data-hashtags="the-huck.com" data-dnt="true">Tweet</a><li>
             <li><div class="fb-like" data-href="http://the-huck.com" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div></li>
+            <li><a href="#top">jump to top</a></li>
           </ul>
         </div>
       </div>
