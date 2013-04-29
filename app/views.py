@@ -38,3 +38,7 @@ def post(id = 1):
 def tweets():
   return render_template("tweets.html")
 
+@app.route('/repos')
+def repos():
+  return render_template("repos.html")
+
