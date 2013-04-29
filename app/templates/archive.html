@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <div>
-  <h3>List of BlogPosts</h3>
-  <ul>
+  <dl class="dl-horizontal">
     {% for post in posts %}
-    <li><a href="/archive/{{post.id}}">{{post.body[9:-4]}}</a> <small>{{post.timestamp.ctime()}}</small></li>
+    <dt><a href="/archive/{{post.id}}">{{post.body[9:-4]}}</a></dt>
+    <dd><small>{{post.timestamp.ctime()}}</small></dd>
     {% endfor %}
-  </ul>
+  </dl>
 </div>
 {% endblock %}
