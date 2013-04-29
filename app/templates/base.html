@@ -15,6 +15,14 @@
     <link href="/static/css/sidebar-nav-fixed.css" rel="stylesheet" media="screen">
   </head>
   <body style="padding:40px">
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=143500795820733";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="navbar navbar-fixed-top span8 offset2">
@@ -37,6 +45,9 @@
         <div class="span1">
           <ul class="nav nav-pills nav-stacked sidebar-nav-fixed">
             <li><a href="#top">jump to top</a></li>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="tschaume" data-hashtags="the-huck.com" data-dnt="true">Tweet</a>
+            <li><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+            <li><div class="fb-like" data-href="http://the-huck.com" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div></li>
           </ul>
         </div>
       </div>
