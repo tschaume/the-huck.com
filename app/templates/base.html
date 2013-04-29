@@ -29,11 +29,17 @@
       <div class="row-fluid">
         <div class="well span2 sidebar-nav-fixed" style="padding: 10px 0;">
           <ul class="nav nav-list"> <!--nav-pills nav-stacked -->
-            <li><a href="/index"><i class="icon-home"></i> Blog</a></li>
-            <li><a href="/about"><i class="icon-user"></i> About</a></li>
-            <li><a href="/archive"><i class="icon-book"></i> Archive</a></li>
-            <li><a href="/tweets"><i class="icon-twitter"></i> Tweets</a></li>
-            <li><a href="/repos"><i class="icon-github"></i> Repos</a></li>
+            {%- for endpoint, icon, caption in [
+            ('index', 'icon-home', 'Blog'),
+            ('about', 'icon-user', 'About'),
+            ('archive', 'icon-book', 'Archive'),
+            ('tweets', 'icon-twitter', 'Tweets'),
+            ('repos', 'icon-github', 'Repos')
+            ] %}
+            <li{% if endpoint == request.endpoint %} class="active"{% endif %}>
+            <a href={{ url_for(endpoint) }}><i class={{icon}}></i> {{caption}}</a>
+            </li>
+            {% endfor %}
             <li><a href="#top"><i class="icon-double-angle-up"></i> Top of Page</a></li>
           </ul>
         </div>
