@@ -1,0 +1,12 @@
+Flask==0.9
+Flask-SQLAlchemy==0.16
+Jinja2==2.6
+SQLAlchemy==0.7.9
+Tempita==0.5.1
+Werkzeug==0.8.3
+argparse==1.2.1
+decorator==3.4.0
+poster==0.8.1
+sqlalchemy-migrate==0.7.2
+tweepy==2.0
+wsgiref==0.1.2
