@@ -34,9 +34,11 @@
             {%- for endpoint, icon, caption in [
             ('index', 'icon-home', 'Blog'),
             ('about', 'icon-user', 'About'),
-            ('archive', 'icon-book', 'Archive'),
+            ('news', 'icon-globe', 'News'),
+            ('science', 'icon-laptop', 'Science'),
             ('tweets', 'icon-twitter', 'Tweets'),
-            ('repos', 'icon-github', 'Repos')
+            ('repos', 'icon-github', 'Repos'),
+            ('archive', 'icon-book', 'Archive')
             ] %}
             <li{% if endpoint == request.endpoint %} class="active"{% endif %}>
             <a href={{ url_for(endpoint) }}><i class={{icon}}></i> {{caption}}</a>

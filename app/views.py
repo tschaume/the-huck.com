@@ -25,6 +25,14 @@ def index(page = 1):
 def about():
   return render_template("about.html")
 
+@app.route('/news')
+def news():
+  return render_template("news.html")
+
+@app.route('/science')
+def science():
+  return render_template("science.html")
+
 @app.route('/archive')
 def archive():
   return render_template("archive.html", posts = Post.query.all())
