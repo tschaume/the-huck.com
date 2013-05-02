@@ -1,0 +1,635 @@
+
+Macros
+------
+Macros are a mechanism for substituting parametrized text into output
+documents.
+
+Macros have a 'name', a single 'target' argument and an 'attribute
+list'.  The usual syntax is `<name>:<target>[<attrlist>]` (for
+inline macros) and `<name>::<target>[<attrlist>]` (for block
+macros).  Here are some examples:
+
+  http://www.docbook.org/[DocBook.org]
+  include::chapt1.txt[tabsize=2]
+  mailto:srackham@gmail.com[]
+
+.Macro behavior
+- `<name>` is the macro name. It can only contain letters, digits or
+  dash characters and cannot start with a dash.
+- The optional `<target>` cannot contain white space characters.
+- `<attrlist>` is a <<X21,list of attributes>> enclosed in square
+  brackets.
+- `]` characters inside attribute lists must be escaped with a
+  backslash.
+- Expansion of macro references can normally be escaped by prefixing a
+  backslash character (see the AsciiDoc 'FAQ' for examples of
+  exceptions to this rule).
+- Attribute references in block macros are expanded.
+- The substitutions performed prior to Inline macro macro expansion
+  are determined by the inline context.
+- Macros are processed in the order they appear in the configuration
+  file(s).
+- Calls to inline macros can be nested inside different inline macros
+  (an inline macro call cannot contain a nested call to itself).
+- In addition to `<name>`, `<target>` and `<attrlist>` the
+  `<passtext>` and `<subslist>` named groups are available to
+  <<X77,passthrough macros>>. A macro is a passthrough macro if the
+  definition includes a `<passtext>` named group.
+
+Inline Macros
+~~~~~~~~~~~~~
+Inline Macros occur in an inline element context. Predefined Inline
+macros include 'URLs', 'image' and 'link' macros.
+
+URLs
+^^^^
+'http', 'https', 'ftp', 'file', 'mailto' and 'callto' URLs are
+rendered using predefined inline macros.
+
+- If you don't need a custom link caption you can enter the 'http',
+  'https', 'ftp', 'file' URLs and email addresses without any special
+  macro syntax.
+- If the `<attrlist>` is empty the URL is displayed.
+
+Here are some examples:
+
+  http://www.docbook.org/[DocBook.org]
+  http://www.docbook.org/
+  mailto:joe.bloggs@foobar.com[email Joe Bloggs]
+  joe.bloggs@foobar.com
+
+Which are rendered:
+
+http://www.docbook.org/[DocBook.org]
+
+http://www.docbook.org/
+
+mailto:joe.bloggs@foobar.com[email Joe Bloggs]
+
+joe.bloggs@foobar.com
+
+If the `<target>` necessitates space characters use `%20`, for example
+`large%20image.png`.
+
+Internal Cross References
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Two AsciiDoc inline macros are provided for creating hypertext links
+within an AsciiDoc document. You can use either the standard macro
+syntax or the (preferred) alternative.
+
+[[X30]]
+anchor
+++++++
+Used to specify hypertext link targets:
+
+  [[<id>,<xreflabel>]]
+  anchor:<id>[<xreflabel>]
+
+The `<id>` is a unique string that conforms to the output markup's
+anchor syntax. The optional `<xreflabel>` is the text to be displayed
+by captionless 'xref' macros that refer to this anchor. The optional
+`<xreflabel>` is only really useful when generating DocBook output.
+Example anchor:
+
+  [[X1]]
+
+You may have noticed that the syntax of this inline element is the
+same as that of the <<X41,BlockId block element>>, this is no
+coincidence since they are functionally equivalent.
+
+xref
+++++
+Creates a hypertext link to a document anchor.
+
+  <<<id>,<caption>>>
+  xref:<id>[<caption>]
+
+The `<id>` refers to an anchor ID. The optional `<caption>` is the
+link's displayed text. Example:
+
+  <<X21,attribute lists>>
+
+If `<caption>` is not specified then the displayed text is
+auto-generated:
+
+- The AsciiDoc 'xhtml11' and 'html5' backends display the `<id>`
+  enclosed in square brackets.
+- If DocBook is produced the DocBook toolchain is responsible for the
+  displayed text which will normally be the referenced figure, table
+  or section title number followed by the element's title text.
+
+Here is an example:
+
+---------------------------------------------------------------------
+[[tiger_image]]
+.Tyger tyger
+image::tiger.png[]
+
+This can be seen in <<tiger_image>>.
+---------------------------------------------------------------------
+
+Linking to Local Documents
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Hypertext links to files on the local file system are specified using
+the 'link' inline macro.
+
+  link:<target>[<caption>]
+
+The 'link' macro generates relative URLs. The link macro `<target>` is
+the target file name (relative to the file system location of the
+referring document). The optional `<caption>` is the link's displayed
+text. If `<caption>` is not specified then `<target>` is displayed.
+Example:
+
+  link:downloads/foo.zip[download foo.zip]
+
+You can use the `<filename>#<id>` syntax to refer to an anchor within
+a target document but this usually only makes sense when targeting
+HTML documents.
+
+[[X9]]
+Images
+^^^^^^
+Inline images are inserted into the output document using the 'image'
+macro. The inline syntax is:
+
+  image:<target>[<attributes>]
+
+The contents of the image file `<target>` is displayed. To display the
+image its file format must be supported by the target backend
+application. HTML and DocBook applications normally support PNG or JPG
+files.
+
+`<target>` file name paths are relative to the location of the
+referring document.
+
+[[X55]]
+.Image macro attributes
+- The optional 'alt' attribute is also the first positional attribute,
+  it specifies alternative text which is displayed if the output
+  application is unable to display the image file (see also
+  http://htmlhelp.com/feature/art3.htm[Use of ALT texts in IMGs]). For
+  example:
+
+  image:images/logo.png[Company Logo]
+
+- The optional 'title' attribute provides a title for the image. The
+  <<X49,block image macro>> renders the title alongside the image.
+  The inline image macro displays the title as a popup ``tooltip'' in
+  visual browsers (AsciiDoc HTML outputs only).
+
+- The optional `width` and `height` attributes scale the image size
+  and can be used in any combination. The units are pixels.  The
+  following example scales the previous example to a height of 32
+  pixels:
+
+  image:images/logo.png["Company Logo",height=32]
+
+- The optional `link` attribute is used to link the image to an
+  external document. The following example links a screenshot
+  thumbnail to a full size version:
+
+  image:screen-thumbnail.png[height=32,link="screen.png"]
+
+- The optional `scaledwidth` attribute is only used in DocBook block
+  images (specifically for PDF documents). The following example
+  scales the images to 75% of the available print width:
+
+  image::images/logo.png[scaledwidth="75%",alt="Company Logo"]
+
+- The image `scale` attribute sets the DocBook `imagedata` element
+  `scale` attribute.
+
+- The optional `align` attribute aligns block macro images
+  horizontally.  Allowed values are `center`, `left` and `right`. For
+  example:
+
+  image::images/tiger.png["Tiger image",align="left"]
+
+- The optional `float` attribute floats the image `left` or `right` on
+  the page (works with HTML outputs only, has no effect on DocBook
+  outputs). `float` and `align` attributes are mutually exclusive.
+  Use the `unfloat::[]` block macro to stop floating.
+
+Comment Lines
+^^^^^^^^^^^^^
+See <<X25,comment block macro>>.
+
+Block Macros
+~~~~~~~~~~~~
+A Block macro reference must be contained in a single line separated
+either side by a blank line or a block delimiter.
+
+Block macros behave just like Inline macros, with the following
+differences:
+
+- They occur in a block context.
+- The default syntax is `<name>::<target>[<attrlist>]` (two
+  colons, not one).
+- Markup template section names end in `-blockmacro` instead of
+  `-inlinemacro`.
+
+Block Identifier
+^^^^^^^^^^^^^^^^
+The Block Identifier macro sets the `id` attribute and has the same
+syntax as the <<X30,anchor inline macro>> since it performs
+essentially the same function -- block templates use the `id`
+attribute as a block element ID. For example:
+
+  [[X30]]
+
+This is equivalent to the `[id="X30"]` <<X79,AttributeList element>>).
+
+[[X49]]
+Images
+^^^^^^
+The 'image' block macro is used to display images in a block context.
+The syntax is:
+
+  image::<target>[<attributes>]
+
+The block `image` macro has the same <<X55,macro attributes>> as it's
+<<X9,inline image macro>> counterpart.
+
+Block images can be titled by preceding the 'image' macro with a
+'BlockTitle'.  DocBook toolchains normally number titled block images
+and optionally list them in an automatically generated 'List of
+Figures' backmatter section.
+
+This example:
+
+  .Main circuit board
+  image::images/layout.png[J14P main circuit board]
+
+is equivalent to:
+
+  image::images/layout.png["J14P main circuit board",
+                            title="Main circuit board"]
+
+A title prefix that can be inserted with the `caption` attribute
+(HTML backends). For example:
+
+  .Main circuit board
+  [caption="Figure 2: "]
+  image::images/layout.png[J14P main circuit board]
+
+[[X66]]
+.Embedding images in XHTML documents
+*********************************************************************
+If you define the `data-uri` attribute then images will be embedded in
+XHTML outputs using the
+http://en.wikipedia.org/wiki/Data:_URI_scheme[data URI scheme].  You
+can use the 'data-uri' attribute with the 'xhtml11' and 'html5'
+backends to produce single-file XHTML documents with embedded images
+and CSS, for example:
+
+  $ asciidoc -a data-uri mydocument.txt
+
+[NOTE]
+======
+- All current popular browsers support data URIs, although versions
+  of Internet Explorer prior to version 8 do not.
+- Some browsers limit the size of data URIs.
+======
+*********************************************************************
+
+[[X25]]
+Comment Lines
+^^^^^^^^^^^^^
+Single lines starting with two forward slashes hard up against the
+left margin are treated as comments. Comment lines do not appear in
+the output unless the 'showcomments' attribute is defined.  Comment
+lines have been implemented as both block and inline macros so a
+comment line can appear as a stand-alone block or within block elements
+that support inline macro expansion. Example comment line:
+
+  // This is a comment.
+
+If the 'showcomments' attribute is defined comment lines are written
+to the output:
+
+- In DocBook the comment lines are enclosed by the 'remark' element
+  (which may or may not be rendered by your toolchain).
+- The 'showcomments' attribute does not expose <<X26,Comment Blocks>>.
+  Comment Blocks are never passed to the output.
+
+System Macros
+~~~~~~~~~~~~~
+System macros are block macros that perform a predefined task and are
+hardwired into the asciidoc(1) program.
+
+- You can escape system macros with a leading backslash character
+  (as you can with other macros).
+- The syntax and tasks performed by system macros is built into
+  asciidoc(1) so they don't appear in configuration files.  You can
+  however customize the syntax by adding entries to a configuration
+  file `[macros]` section.
+
+[[X63]]
+Include Macros
+^^^^^^^^^^^^^^
+The `include` and `include1`  system macros to include the contents of
+a named file into the source document.
+
+The `include` macro includes a file as if it were part of the parent
+document -- tabs are expanded and system macros processed. The
+contents of `include1` files are not subject to tab expansion or
+system macro processing nor are attribute or lower priority
+substitutions performed. The `include1` macro's intended use is to
+include verbatim embedded CSS or scripts into configuration file
+headers.  Example:
+
+------------------------------------
+\include::chapter1.txt[tabsize=4]
+------------------------------------
+
+.Include macro behavior
+- If the included file name is specified with a relative path then the
+  path is relative to the location of the referring document.
+- Include macros can appear inside configuration files.
+- Files included from within 'DelimitedBlocks' are read to completion
+  to avoid false end-of-block underline termination.
+- Attribute references are expanded inside the include 'target'; if an
+  attribute is undefined then the included file is silently skipped.
+- The 'tabsize' macro attribute sets the number of space characters to
+  be used for tab expansion in the included file (not applicable to
+  `include1` macro).
+- The 'depth' macro attribute sets the maximum permitted number of
+  subsequent nested includes (not applicable to `include1` macro which
+  does not process nested includes). Setting 'depth' to '1' disables
+  nesting inside the included file. By default, nesting is limited to
+  a depth of ten.
+- If the he 'warnings' attribute is set to 'False' (or any other
+  Python literal that evaluates to boolean false) then no warning
+  message is printed if the included file does not exist. By default
+  'warnings' are enabled.
+- Internally the `include1` macro is translated to the `include1`
+  system attribute which means it must be evaluated in a region where
+  attribute substitution is enabled. To inhibit nested substitution in
+  included files it is preferable to use the `include` macro and set
+  the attribute `depth=1`.
+
+Conditional Inclusion Macros
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Lines of text in the source document can be selectively included or
+excluded from processing based on the existence (or not) of a document
+attribute.
+
+Document text between the `ifdef` and `endif` macros is included if a
+document attribute is defined:
+
+  ifdef::<attribute>[]
+  :
+  endif::<attribute>[]
+
+Document text between the `ifndef` and `endif` macros is not included
+if a document attribute is defined:
+
+  ifndef::<attribute>[]
+  :
+  endif::<attribute>[]
+
+`<attribute>` is an attribute name which is optional in the trailing
+`endif` macro.
+
+If you only want to process a single line of text then the text can be
+put inside the square brackets and the `endif` macro omitted, for
+example:
+
+  ifdef::revnumber[Version number 42]
+
+Is equivalent to:
+
+  ifdef::revnumber[]
+  Version number 42
+  endif::revnumber[]
+
+'ifdef' and 'ifndef' macros also accept multiple attribute names:
+
+- Multiple ',' separated attribute names evaluate to defined if one
+  or more of the attributes is defined, otherwise it's value is
+  undefined.
+- Multiple '+' separated attribute names evaluate to defined if all
+  of the attributes is defined, otherwise it's value is undefined.
+
+Document text between the `ifeval` and `endif` macros is included if
+the Python expression inside the square brackets is true. Example:
+
+  ifeval::[{rs458}==2]
+  :
+  endif::[]
+
+- Document attribute references are expanded before the expression is
+  evaluated.
+- If an attribute reference is undefined then the expression is
+  considered false.
+
+Take a look at the `*.conf` configuration files in the AsciiDoc
+distribution for examples of conditional inclusion macro usage.
+
+Executable system macros
+^^^^^^^^^^^^^^^^^^^^^^^^
+The 'eval', 'sys' and 'sys2' block macros exhibit the same behavior as
+their same named <<X24, system attribute references>>. The difference
+is that system macros occur in a block macro context whereas system
+attributes are confined to inline contexts where attribute
+substitution is enabled.
+
+The following example displays a long directory listing inside a
+literal block:
+
+  ------------------
+  sys::[ls -l *.txt]
+  ------------------
+
+NOTE: There are no block macro versions of the 'eval3' and 'sys3'
+system attributes.
+
+Template System Macro
+^^^^^^^^^^^^^^^^^^^^^
+The `template` block macro allows the inclusion of one configuration
+file template section within another.  The following example includes
+the `[admonitionblock]` section in the `[admonitionparagraph]`
+section:
+
+  [admonitionparagraph]
+  template::[admonitionblock]
+
+.Template macro behavior
+- The `template::[]` macro is useful for factoring configuration file
+  markup.
+- `template::[]` macros cannot be nested.
+- `template::[]` macro expansion is applied after all configuration
+  files have been read.
+
+
+[[X77]]
+Passthrough macros
+~~~~~~~~~~~~~~~~~~
+Passthrough macros are analogous to <<X76,passthrough blocks>> and are
+used to pass text directly to the output. The substitution performed
+on the text is determined by the macro definition but can be overridden
+by the `<subslist>`.  The usual syntax is
+`<name>:<subslist>[<passtext>]` (for inline macros) and
+`<name>::<subslist>[<passtext>]` (for block macros). Passthroughs, by
+definition, take precedence over all other text substitutions.
+
+pass::
+  Inline and block. Passes text unmodified (apart from explicitly
+  specified substitutions). Examples:
+
+  pass:[<q>To be or not to be</q>]
+  pass:attributes,quotes[<u>the '{author}'</u>]
+
+asciimath, latexmath::
+  Inline and block. Passes text unmodified.  Used for
+  <<X78,mathematical formulas>>.
+
+\+++::
+  Inline and block. The triple-plus passthrough is functionally
+  identical to the 'pass' macro but you don't have to escape `]`
+  characters and you can prefix with quoted attributes in the inline
+  version. Example:
+
+  Red [red]+++`sum_(i=1)\^n i=(n(n+1))/2`$+++ AsciiMathML formula
+
+$$::
+  Inline and block. The double-dollar passthrough is functionally
+  identical to the triple-plus passthrough with one exception: special
+  characters are escaped. Example:
+
+  $$`[[a,b],[c,d]]((n),(k))`$$
+
+[[X80]]`::
+  Text quoted with single backtick characters constitutes an 'inline
+  literal' passthrough. The enclosed text is rendered in a monospaced
+  font and is only subject to special character substitution.  This
+  makes sense since monospace text is usually intended to be rendered
+  literally and often contains characters that would otherwise have to
+  be escaped. If you need monospaced text containing inline
+  substitutions use a <<X81,plus character instead of a backtick>>.
+
+Macro Definitions
+~~~~~~~~~~~~~~~~~
+Each entry in the configuration `[macros]` section is a macro
+definition which can take one of the following forms:
+
+`<pattern>=<name>[<subslist]`:: Inline macro definition.
+`<pattern>=#<name>[<subslist]`:: Block macro definition.
+`<pattern>=+<name>[<subslist]`:: System macro definition.
+`<pattern>`:: Delete the existing macro with this `<pattern>`.
+
+`<pattern>` is a Python regular expression and `<name>` is the name of
+a markup template. If `<name>` is omitted then it is the value of the
+regular expression match group named 'name'.  The optional
+`[<subslist]` is a comma-separated list of substitution names enclosed
+in `[]` brackets, it sets the default substitutions for passthrough
+text, if omitted then no passthrough substitutions are performed.
+
+.Pattern named groups
+The following named groups can be used in macro `<pattern>` regular
+expressions and are available as markup template attributes:
+
+name::
+  The macro name.
+
+target::
+  The macro target.
+
+attrlist::
+  The macro attribute list.
+
+passtext::
+  Contents of this group are passed unmodified to the output subject
+  only to 'subslist' substitutions.
+
+subslist::
+  Processed as a comma-separated list of substitution names for
+  'passtext' substitution, overrides the the macro definition
+  'subslist'.
+
+.Here's what happens during macro substitution
+- Each contextually relevant macro 'pattern' from the `[macros]`
+  section is matched against the input source line.
+- If a match is found the text to be substituted is loaded from a
+  configuration markup template section named like
+  `<name>-inlinemacro` or `<name>-blockmacro` (depending on the macro
+  type).
+- Global and macro attribute list attributes are substituted in the
+  macro's markup template.
+- The substituted template replaces the macro reference in the output
+  document.
+
+
+[[X98]]
+HTML 5 audio and video block macros
+-----------------------------------
+The 'html5' backend 'audio' and 'video' block macros generate the HTML
+5 'audio' and 'video' elements respectively.  They follow the usual
+AsciiDoc block macro syntax `<name>::<target>[<attrlist>]` where:
+
+[horizontal]
+`<name>`:: 'audio' or 'video'.
+`<target>`:: The URL or file name of the video or audio file.
+`<attrlist>`:: A list of named attributes (see below).
+
+.Audio macro attributes
+[options="header",cols="1,5",frame="topbot"]
+|====================================================================
+|Name | Value
+|options
+|A comma separated list of one or more of the following items:
+'autoplay', 'loop' which correspond to the same-named HTML 5 'audio'
+element boolean attributes.  By default the player 'controls' are
+enabled, include the 'nocontrols' option value to hide them.
+|====================================================================
+
+.Video macro attributes
+[options="header",cols="1,5",frame="topbot"]
+|====================================================================
+|Name   | Value
+|height | The height of the player in pixels.
+|width  | The width of the player in pixels.
+|poster | The URL or file name of an image representing the video.
+|options
+|A comma separated list of one or more of the following items:
+'autoplay', 'loop' and 'nocontrols'. The 'autoplay' and 'loop' options
+correspond to the same-named HTML 5 'video' element boolean
+attributes.  By default the player 'controls' are enabled, include the
+'nocontrols' option value to hide them.
+|====================================================================
+
+Examples:
+
+---------------------------------------------------------------------
+audio::images/example.ogg[]
+
+video::gizmo.ogv[width=200,options="nocontrols,autoplay"]
+
+.Example video
+video::gizmo.ogv[]
+
+video::http://www.808.dk/pics/video/gizmo.ogv[]
+---------------------------------------------------------------------
+
+If your needs are more complex put raw HTML 5 in a markup block, for
+example (from http://www.808.dk/?code-html-5-video):
+
+---------------------------------------------------------------------
+++++
+<video poster="pics/video/gizmo.jpg" id="video" style="cursor: pointer;" >
+  <source src="pics/video/gizmo.mp4" />
+  <source src="pics/video/gizmo.webm" type="video/webm" />
+  <source src="pics/video/gizmo.ogv" type="video/ogg" />
+  Video not playing? <a href="pics/video/gizmo.mp4">Download file</a> instead.
+</video>
+
+<script type="text/javascript">
+  var video = document.getElementById('video');
+  video.addEventListener('click',function(){
+    video.play();
+  },false);
+</script>
+++++
+---------------------------------------------------------------------
+
