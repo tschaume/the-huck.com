@@ -18,11 +18,11 @@ def post(ascfile):
     print Post.query.get(post.id)
   else:
     print "%r already posted" % ascfile
-    print "updating timestamp ..."
-    for p in pq.all():
-      p.timestamp = datetime.datetime.utcnow()
-      print Post.query.get(p.id)
-    db.session.commit()
+    #print "updating timestamp ..."
+    #for p in pq.all():
+    #  p.timestamp = datetime.datetime.utcnow()
+    #  print Post.query.get(p.id)
+    #db.session.commit()
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
