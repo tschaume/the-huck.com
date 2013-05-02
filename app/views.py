@@ -2,6 +2,7 @@ from flask import render_template
 from app import app, db
 from app.models import Post
 import StringIO
+from sqlalchemy import desc
 from asciidocapi import AsciiDocAPI
 asciidoc = AsciiDocAPI()
 asciidoc.options('--no-header-footer')
@@ -15,7 +16,7 @@ def run_asciidoc(p):
 @app.route('/index')
 @app.route('/index/<int:page>')
 def index(page = 1):
-  posts = Post.query.paginate(page, 1, False) # returns Paginate object
+  posts = Post.query.order_by(desc(Post.timestamp)).paginate(page, 1, False)
   for p in posts.items:
     p.body = run_asciidoc(p)
   return render_template("index.html", posts = posts)
