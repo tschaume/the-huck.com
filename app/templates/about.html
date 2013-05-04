@@ -1,14 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="well well-large" style="margin:40px">
-  <div class="media">
-    <a class="pull-left" href="#">
-      <img class="media-object" src="static/img/profile.jpg">
-    </a>
-    <div class="media-body">
-      <h3 class="media-heading">Patrick Huck <small>Berkeley, CA</small></h3>
-      a little something about me
-    </div>
+<div>
+  <style>
+    #about-txt {
+      z-index: 100;
+      position: fixed;
+      color: white;
+      left: 70%;
+      top: 30%;
+    }
+  </style>
+  <div id="about-txt">
+    <h3>Patrick Huck <small>Berkeley, CA</small></h3>
+    a little something about me
+    <ul class="inline">
+      <li><a href="http://www.facebook.com/tschaume"><i class="icon-facebook-sign icon-large"></i></a></li>
+      <li><a href="https://github.com/tschaume"><i class="icon-github icon-large"></i></a></li>
+      <li><a href="http://www.linkedin.com/in/tschaume/"><i class="icon-linkedin icon-large"></i></a></li>
+      <li><a href="http://www.speakerdeck.com/tschaume"><img src="/static/img/speakerdeck-16x16.png"></a></li>
+    </ul>
   </div>
 </div>
 {% endblock %}
