@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <ul class="pager">
-  <li class="previous">{% if posts.has_prev %}<a href="{{ url_for('index', page = posts.prev_num) }}">&larr; newer posts</a>{% endif %}</li>
-  <li class="next">{% if posts.has_next %}<a href="{{ url_for('index', page = posts.next_num) }}">&rarr; older posts</a>{% endif %}</li>
+  <li class="previous">
+  {% if posts.has_prev %}
+  <a href="{{ url_for('index', page = posts.prev_num) }}">&larr; newer post</a>
+  {% endif %}
+  </li>
+  <li class="next">
+  {% if posts.has_next %}
+  <a href="{{ url_for('index', page = posts.next_num) }}">&rarr; older post</a>
+  {% endif %}
+  </li>
 </ul>
 {% for post in posts.items %}
 {% include 'post.html' %}
