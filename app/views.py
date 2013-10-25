@@ -51,3 +51,7 @@ def tweets():
 def repos():
   return render_template("repos.html")
 
+@app.errorhandler(500)
+def internal_error(exception):
+  app.logger.exception(exception)
+  return render_template('500.html'), 500

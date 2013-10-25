@@ -5,13 +5,14 @@ from app.models import Post
 import datetime
 import argparse
 from sqlalchemy.orm.exc import NoResultFound
+import os
 
 def post(ascfile):
   try:
     pq = Post.query.filter(Post.body == ascfile)
     pq.one()
   except NoResultFound:
-    post = Post(body = ascfile, timestamp = datetime.datetime.utcnow())
+    post = Post(body = os.path.abspath(ascfile), timestamp = datetime.datetime.utcnow())
     print "add %r" % post
     db.session.add(post)
     db.session.commit()
