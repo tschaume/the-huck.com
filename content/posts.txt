@@ -1,7 +1,7 @@
-content/asciidoc/userguide/asciidoc_userguide_part6.txt
-content/asciidoc/userguide/asciidoc_userguide_part5.txt
-content/asciidoc/userguide/asciidoc_userguide_part4.txt
-content/asciidoc/userguide/asciidoc_userguide_part3.txt
-content/asciidoc/userguide/asciidoc_userguide_part2.txt
-content/asciidoc/userguide/asciidoc_userguide_part1.txt
+content/asciidoc/userguide/asciidoc_guide_6.txt
+content/asciidoc/userguide/asciidoc_guide_5.txt
+content/asciidoc/userguide/asciidoc_guide_4.txt
+content/asciidoc/userguide/asciidoc_guide_3.txt
+content/asciidoc/userguide/asciidoc_guide_2.txt
+content/asciidoc/userguide/asciidoc_guide_1.txt
 content/asciidoc/first_post.txt

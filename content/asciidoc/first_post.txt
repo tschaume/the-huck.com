@@ -5,6 +5,7 @@ This post launches my personal page the-huck.com.
 
 The page is developed in python flask and the blogposts written in asciidoc
 markup language. Attached as older posts are parts of the asciidoc userguide to
-demonstrate the rendering of asciidoc text files into html.
+demonstrate the rendering of asciidoc text files into html. The page's source
+code is published at https://github.com/tschaume/the-huck.com.
 
 Stay tuned for more to come ...
