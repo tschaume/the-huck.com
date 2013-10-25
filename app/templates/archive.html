@@ -3,7 +3,7 @@
 <div>
   <dl class="dl-horizontal">
     {% for post in posts %}
-    <dt><a href="/archive/{{post.id}}">{{post.body[9:-4]}}</a></dt>
+    <dt><a href="/archive/{{post.id}}">{{ get_post_title(post.body) }}</a></dt>
     <dd><small>{{post.timestamp.ctime()}}</small></dd>
     {% endfor %}
   </dl>

@@ -6,6 +6,7 @@ from sqlalchemy import desc
 from asciidocapi import AsciiDocAPI
 asciidoc = AsciiDocAPI()
 asciidoc.options('--no-header-footer')
+import os
 
 def run_asciidoc(p):
   outfile = StringIO.StringIO()
@@ -55,3 +56,10 @@ def repos():
 def internal_error(exception):
   app.logger.exception(exception)
   return render_template('500.html'), 500
+
+@app.context_processor
+def my_util_processor():
+  def get_post_title(url):
+    base = os.path.basename(url)
+    return os.path.splitext(base)[0]
+  return dict(get_post_title = get_post_title)
